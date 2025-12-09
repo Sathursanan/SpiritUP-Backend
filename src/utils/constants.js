@@ -1,0 +1,12 @@
+export const ROLES = {
+  USER: 'USER',
+  MENTOR: 'MENTOR',
+  ADMIN: 'ADMIN',
+};
+
+export const MENTOR_STATUS = {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED',
+  DELETED: 'DELETED',
+};
