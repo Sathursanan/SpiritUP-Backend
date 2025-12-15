@@ -28,23 +28,36 @@ const adminauthcontroller = {
       next(err);
     }
   },
-
   async loginAdmin(req, res, next) {
     try {
       const { email, password } = req.body;
-
+  
+      console.log('Login email:', email);
+      console.log('ROLES.ADMIN:', ROLES.ADMIN);
+  
       const admin = await User.findOne({ email, role: ROLES.ADMIN });
-      if (!admin) throw new Error('Invalid credentials');
-
+      console.log('Found admin:', admin);
+  
+      if (!admin) {
+        return res.status(401).json({ message: 'Invalid credentials (not found)' });
+      }
+  
+      console.log('Password from request:', password);
+      console.log('Password from DB:', admin.password);
+  
       const match = await bcrypt.compare(password, admin.password);
-      if (!match) throw new Error('Invalid credentials');
-
+      console.log('Password match:', match);
+  
+      if (!match) {
+        return res.status(401).json({ message: 'Invalid credentials (password)' });
+      }
+  
       const token = signToken({ id: admin._id, role: admin.role });
       res.json({ admin, token });
     } catch (err) {
       next(err);
     }
-  },
+  }
 };
 
 export default adminauthcontroller;
